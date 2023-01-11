@@ -42,4 +42,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function lessons()
+    {
+        return $this->belongsToMany(Lesson::class);
+    }
+
+
+    public function scopeOfRole($query, $roleSlug)
+    {
+        return $query->whereRelation('role', 'slug', $roleSlug);
+    }
 }
