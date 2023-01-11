@@ -29,4 +29,6 @@
 ```
 php artisan migrate --seed
 php artisan command:CreateFakeDataCommand
+npm i
+npm run dev
 ```

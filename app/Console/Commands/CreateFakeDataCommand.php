@@ -41,6 +41,10 @@ class CreateFakeDataCommand extends Command
     {
         $this->generateUsers(2000, Role::ROLE_USER);
         $this->generateUsers(4, Role::ROLE_ADMIN);
+        User::factory()->create([
+            'role_id' => Role::where('slug', Role::ROLE_ADMIN)->value('id'),
+            'email' => 'admin@admin.com',
+        ]);
 
         Lesson::factory(27)->create();
 
