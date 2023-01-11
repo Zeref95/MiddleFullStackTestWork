@@ -24,3 +24,9 @@
 
 В нашем проекте мы используем Laravel и Vue, а также Tailwind CSS, поэтому внутренние компоненты должны быть написаны с использованием Vue3.
 Использование Composition API предпочтительно.
+
+# Установка
+```
+php artisan migrate --seed
+php artisan command:CreateFakeDataCommand
+```
