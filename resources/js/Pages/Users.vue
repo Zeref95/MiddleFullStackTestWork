@@ -2,14 +2,12 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import Table from '@/Components/Table.vue'
-
 import { onMounted, ref } from 'vue'
 import Modal from '@/Components/Modal.vue'
 
 let tableData = ref([]);
-
-let text = ref('Loading ...')
-
+let text = ref('Loading ...');
+let tableHeaders = ['Name', 'Email', 'Progress', 'Rank'];
 let getUsersList = (sort = 'default') => {
   tableData.value = [];
   axios.get('/axios/users-list?sort=' + sort)
@@ -24,17 +22,13 @@ let getUsersList = (sort = 'default') => {
         text.value = 'Error';
       })
 }
-let tableHeaders = ['Name', 'Email', 'Progress', 'Rank'];
-
 let selectSort = (event) => {
   getUsersList(event.target.value);
 }
 
-onMounted(() => {
-  getUsersList();
-});
 
 let userLessons = ref([]);
+let modalUserId = ref(null);
 let openLessonsModal = (userId) => {
   modalUserId.value = userId;
   axios.get('/axios/user-lessons/' + userId)
@@ -44,10 +38,14 @@ let openLessonsModal = (userId) => {
         }
       })
 }
-let modalUserId = ref(null);
 const closeModal = () => {
   modalUserId.value = null;
+  userLessons.value = [];
 };
+
+onMounted(() => {
+  getUsersList();
+});
 
 </script>
 
