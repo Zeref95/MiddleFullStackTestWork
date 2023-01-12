@@ -2,8 +2,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 import Table from '@/Components/Table.vue'
-import { data } from 'autoprefixer'
+
 import { onMounted, ref } from 'vue'
+import Modal from '@/Components/Modal.vue'
 
 let tableData = ref([]);
 
@@ -23,6 +24,7 @@ let getUsersList = (sort = 'default') => {
         text.value = 'Error';
       })
 }
+let tableHeaders = ['Name', 'Email', 'Progress', 'Rank'];
 
 let selectSort = (event) => {
   getUsersList(event.target.value);
@@ -31,6 +33,21 @@ let selectSort = (event) => {
 onMounted(() => {
   getUsersList();
 });
+
+let userLessons = ref([]);
+let openLessonsModal = (userId) => {
+  modalUserId.value = userId;
+  axios.get('/axios/user-lessons/' + userId)
+      .then(response => {
+        if (response?.data) {
+          userLessons.value = response.data;
+        }
+      })
+}
+let modalUserId = ref(null);
+const closeModal = () => {
+  modalUserId.value = null;
+};
 
 </script>
 
@@ -52,10 +69,35 @@ onMounted(() => {
                       <option value="lessons">Lessons</option>
                     </select>
                   </div>
-                  <Table v-if="tableData.length > 0" :data="tableData" :headers="['Name', 'Email', 'Progress', 'Rank']"></Table>
+
+                  <table v-if="tableData.length > 0" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr v-if="tableHeaders">
+                      <th v-for="header in tableHeaders" scope="col" class="px-6 py-3">
+                        {{header}}
+                      </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(row, i) in tableData"  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      <template v-for="(col, key) in row">
+                        <template v-if="key === 'id'"></template>
+                        <td v-else class="px-6 py-4" @click="openLessonsModal(row.id)">
+                          {{col}}
+                        </td>
+                      </template>
+                    </tr>
+                    </tbody>
+                  </table>
+
                   <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-else>{{text}}</div>
                 </div>
             </div>
         </div>
     </AuthenticatedLayout>
+    <Modal :show="modalUserId" @close="closeModal">
+      <ul v-if="userLessons">
+        <li v-for="name in userLessons">{{name}}</li>
+      </ul>
+    </Modal>
 </template>

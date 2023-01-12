@@ -18,7 +18,7 @@ defineProps(['headers', 'data']);
       <tbody>
       <tr v-for="(row, i) in data"  class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
         <template v-for="col in row">
-          <td class="px-6 py-4">
+          <td class="px-6 py-4" @click="alert(row.id)">
             {{col}}
           </td>
         </template>
