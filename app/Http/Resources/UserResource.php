@@ -18,7 +18,8 @@ class UserResource extends JsonResource
         return [
             'name' => $this->name,
             'email' => $this->email,
-            'progress' =>  round((100 * $this->lessons->count()) / Lesson::count()),
+            'progress' =>  $this->progress.'%',
+            'rank' => $this->rank.' place',
         ];
     }
 }

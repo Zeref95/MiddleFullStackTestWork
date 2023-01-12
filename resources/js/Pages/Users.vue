@@ -36,7 +36,7 @@ let text = ref('Loading ...')
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                  <Table v-if="tableData.length > 0" :data="tableData" :headers="['Name', 'Email', 'Progress']"></Table>
+                  <Table v-if="tableData.length > 0" :data="tableData" :headers="['Name', 'Email', 'Progress', 'Rank']"></Table>
                   <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" v-else>{{text}}</div>
                 </div>
             </div>
