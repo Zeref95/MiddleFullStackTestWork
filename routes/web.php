@@ -29,10 +29,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
-    Route::get('/users', function () {
-        return Inertia::render('Users');
-    })->name('users');
 
+    Route::get('/lessons', [\App\Http\Controllers\LessonController::class, 'index'])->name('lessons');
+    Route::get('/users', [\App\Http\Controllers\UserController::class, 'index'])->name('users');
     Route::get('/axios/users-list', [\App\Http\Controllers\UserController::class, 'getUsersList']);
 });
 
